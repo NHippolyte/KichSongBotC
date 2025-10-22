@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { id: 'PLUS', title: 'PLUS', artist: 'Kich', coverImage: 'image/PLUS.png', audioSrc: 'banger/PLUS.mp3' },
                 { id: 'TicEtTac', title: 'Tic et Tac', artist: 'Kich', coverImage: 'image/TicEtTac.png', audioSrc: 'banger/Tic et Tac.mp3' },
                 { id: 'SYMA', title: 'SYMA', artist: 'Kich', coverImage: 'image/SYMA.png', audioSrc: 'banger/SYMA.mp3' },
-                { id: 'Suceuse2chibre', title: 'Suceuse2chibre', artist: 'Kich', coverImage: 'image/Suceuse2chibre.png', audioSrc: 'banger/Suceuse2chibre.mp3' },
+                { id: 'Suceuse2chibre', title: 'Suceuse2chibre', artist: 'Kich', coverImage: 'image/Suceuse2chibre.png', audioSrc: 'banger/suceuse2chibre.mp3' },
                 { id: 'BARIO', title: 'BARIO', artist: 'Kich', coverImage: 'image/Bario.JPG', audioSrc: 'banger/BARIO.mp3' },
                 { id: 'PasLeMemeDel', title: 'Pas Les Meme Del', artist: 'Kich', coverImage: 'image/PasLeMemeDel.png', audioSrc: 'banger/Pas Le Meme Del.mp3' },
                 { id: 'HMHM', title: 'HMHM', artist: 'Kich', coverImage: 'image/HMHM.JPG', audioSrc: 'banger/HMHM.mp3' },
