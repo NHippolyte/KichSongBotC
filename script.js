@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
             className: 'freestyle-bg',
             categoryImage: 'image/FRESSTYLE.png',
             sounds: [
-                { id: 'pause', title: 'Pause', artist: 'Kich', coverImage: 'image/pause.png', audioSrc: 'freestyle/pause.mp3' },
+                { id: 'pause', title: 'Pause', artist: 'Kich', coverImage: 'image/pause.png', audioSrc: 'freestyle/Pause.mp3' },
                 { id: 'honnetement', title: 'Honnetement', artist: 'Kich', coverImage: 'image/honnetement.png', audioSrc: 'freestyle/honnetement.mp3' },
                 { id: 'Jrempli', title: 'J\'rempli J\'vide', artist: 'Kich', coverImage: 'image/Jrempli.png', audioSrc: 'freestyle/Jrempli.mp3' },
                 { id: '3Pshit', title: '3 Pshit', artist: 'Kich', coverImage: 'image/3pshit.JPG', audioSrc: 'freestyle/3pshit.mp3' },
