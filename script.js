@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
             className: 'freestyle-bg',
             categoryImage: 'image/FRESSTYLE.png',
             sounds: [
-                { id: 'pause', title: 'Pause', artist: 'Kich', coverImage: 'image/pause.png', audioSrc: 'freestyle/pause.mp3' },
+                { id: 'pause', title: 'Pause', artist: 'Kich', coverImage: 'image/pause.png', audioSrc: 'freestyle/Pause.mp3' },
                 { id: 'honnetement', title: 'Honnetement', artist: 'Kich', coverImage: 'image/honnetement.png', audioSrc: 'freestyle/honnetement.mp3' },
                 { id: 'Jrempli', title: 'J\'rempli J\'vide', artist: 'Kich', coverImage: 'image/Jrempli.png', audioSrc: 'freestyle/Jrempli.mp3' },
                 { id: '3Pshit', title: '3 Pshit', artist: 'Kich', coverImage: 'image/3pshit.JPG', audioSrc: 'freestyle/3pshit.mp3' },
@@ -114,6 +114,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const soundListContainer = document.getElementById('sound-list-container');
     const soundsPageTitle = document.getElementById('sounds-page-title');
     const backButton = document.getElementById('back-to-categories');
+    const shuffleBtn = document.getElementById('shuffle-btn');
+    const repeatBtn = document.getElementById('repeat-btn');
+
 
     // Éléments du lecteur audio
     const audioPlayer = document.getElementById('audio-player');
@@ -145,6 +148,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // AJOUTE ces nouvelles variables d'état
     let currentPlaylist = [];
     let currentTrackIndex = -1;
+    let favorites = loadFavorites(); // Charge les favoris sauvegardés
+let shuffleMode = false;
+let repeatMode = 'none'; // 'none', 'all', 'one'
 
 
     let currentSound = null;
@@ -156,23 +162,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // --- AFFICHAGE ---
-    /*    function renderCategories() {
-           categoryListContainer.innerHTML = musicData.map(category => {
-               // On vérifie si la catégorie est "banger" pour lui donner une classe spéciale
-               const extraClass = category.id === 'banger' ? 'full-width' : '';
-       
-               return `
-                   <div 
-                       class="category-card ${extraClass}" 
-                       data-category-id="${category.id}" 
-                       style="background-image: url('${category.categoryImage}');"
-                   >
-                   </div>
-               `;
-           }).join('');
-       }
-        */
-       function renderCategories() {
+  /*      function renderCategories() {
         categoryListContainer.innerHTML = musicData.map(category => {
             const extraClass = category.id === 'banger' ? 'full-width' : '';
             
@@ -185,10 +175,87 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
             `;
         }).join('');
+    } */
+
+/*     function renderCategories() {
+        // 1. On crée le HTML pour les cartes
+        let categoriesHTML = musicData.map(category => {
+            const extraClass = category.id === 'banger' ? 'full-width' : '';
+            // On ajoute la classe de style (ex: 'banger-bg')
+            return `
+                <div 
+                    class="category-card ${extraClass} ${category.className || ''}" 
+                    data-category-id="${category.id}"
+                    style="background-image: url('${category.categoryImage}');"
+                >
+                </div>
+            `;
+        }).join('');
+    
+        // 2. Ajoute la carte des favoris si elle n'est pas vide
+        if (favorites.length > 0) {
+            const lastCategoryIsFullWidth = musicData.length > 0 && musicData[musicData.length - 1].id === 'banger';
+            const favCardClass = lastCategoryIsFullWidth ? '' : 'full-width';
+            
+            // REMPLACE 'URL_DE_TON_IMAGE_FAVORIS.jpg' par le nom de ton image
+            const favoriteBackgroundImage = 'image/favoris.png'; 
+        
+            categoriesHTML += `
+                <div 
+                    class="category-card favorites-card ${favCardClass}" 
+                    data-category-id="favorites" 
+                    style="background-image: url('${favoriteBackgroundImage}');" 
+                >
+                    <!-- Le contenu (emoji et texte) a été supprimé -->
+                </div>
+            `;
+        }
+    
+        // 3. On met à jour le HTML
+        categoryListContainer.innerHTML = categoriesHTML;
+    
+        // IMPORTANT : On a supprimé la boucle document.querySelectorAll qui ajoutait les écouteurs ici.
+    }
+     */
+
+    function renderCategories() {
+        // 1. On crée le HTML pour les catégories normales
+        let categoriesHTML = musicData.map(category => {
+            const extraClass = category.id === 'banger' ? 'full-width' : '';
+            // On ajoute la classe de style (ex: 'banger-bg')
+            return `
+                <div 
+                    class="category-card ${extraClass} ${category.className || ''}" 
+                    data-category-id="${category.id}"
+                    style="background-image: url('${category.categoryImage}');"
+                >
+                </div>
+            `;
+        }).join('');
+    
+        // 2. On AJOUTE TOUJOURS la carte des favoris
+        const lastCategoryIsFullWidth = musicData.length > 0 && musicData[musicData.length - 1].id === 'banger';
+        const favCardClass = lastCategoryIsFullWidth ? '' : 'full-width';
+        
+        // REMPLACE 'URL_DE_TON_IMAGE_FAVORIS.jpg' par le nom de ton image
+        const favoriteBackgroundImage = 'image/favoris.png'; 
+    
+        categoriesHTML += `
+            <div 
+                class="category-card favorites-card ${favCardClass}" 
+                data-category-id="favorites" 
+                style="background-image: url('${favoriteBackgroundImage}');" 
+            >
+            </div>
+        `;
+    
+        // 3. On met à jour le HTML
+        categoryListContainer.innerHTML = categoriesHTML;
     }
     
+    
 
-    function renderSounds(categoryId) {
+   /*  function renderSounds(categoryId) {
         const category = musicData.find(c => c.id === categoryId);
         if (!category) return;
 
@@ -203,7 +270,157 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
         `).join('');
         showPage('page-sounds');
+    } */
+
+   /*  function renderSounds(categoryId) {
+        let categoryName = '';
+        let soundsToShow = [];
+    
+        if (categoryId === 'favorites') {
+            categoryName = 'Mes Favoris ❤️';
+            // On récupère les détails complets des sons favoris
+            soundsToShow = favorites.map(favId => findSoundById(favId)).filter(sound => sound !== null);
+        } else {
+            const category = musicData.find(c => c.id === categoryId);
+            if (!category) return;
+            categoryName = category.name;
+            soundsToShow = category.sounds.map(s => ({ ...s, categoryId: category.id })); // Ajoute categoryId
+        }
+    
+        soundsPageTitle.innerText = categoryName;
+        soundListContainer.innerHTML = soundsToShow.map(sound => {
+            const isFav = isFavorite(sound.id);
+            const heartIcon = isFav ? '#icon-heart-filled' : '#icon-heart-empty';
+            const favClass = isFav ? 'active' : '';
+    
+            return `
+                <div class="sound-item" data-sound-id="${sound.id}" data-category-id="${sound.categoryId}">
+                    <img src="${sound.coverImage}" alt="${sound.title}">
+                    <div class="info">
+                        <div class="title">${sound.title}</div>
+                        <div class="artist">${sound.artist}</div>
+                    </div>
+                    <button class="favorite-btn ${favClass}" data-sound-id="${sound.id}" data-category-id="${sound.categoryId}">
+                        <svg width="24" height="24"><use href="${heartIcon}"/></svg>
+                    </button>
+                </div>
+            `;
+        }).join('');
+        showPage('page-sounds');
+    } */
+
+    function renderSounds(categoryId) {
+        let categoryName = '';
+        let soundsToShow = [];
+        let isEmptyFavorites = false; // Nouvelle variable
+    
+        if (categoryId === 'favorites') {
+            categoryName = 'Mes Favoris ❤️';
+            soundsToShow = favorites.map(favId => findSoundById(favId)).filter(sound => sound !== null);
+            // On vérifie si la liste des favoris est vide
+            if (soundsToShow.length === 0) {
+                isEmptyFavorites = true;
+            }
+        } else {
+            const category = musicData.find(c => c.id === categoryId);
+            if (!category) return;
+            categoryName = category.name;
+            soundsToShow = category.sounds.map(s => ({ ...s, categoryId: category.id }));
+        }
+    
+        soundsPageTitle.innerText = categoryName;
+    
+        // Si c'est la catégorie favoris et qu'elle est vide, afficher le message
+        if (isEmptyFavorites) {
+            soundListContainer.innerHTML = `<p class="empty-favorites-message">Aucun son en favori pour le moment.</p>`;
+        } else {
+            // Sinon, afficher la liste des sons comme d'habitude
+            soundListContainer.innerHTML = soundsToShow.map(sound => {
+                const isFav = isFavorite(sound.id);
+                const heartIcon = isFav ? '#icon-heart-filled' : '#icon-heart-empty';
+                const favClass = isFav ? 'active' : '';
+    
+                return `
+                    <div class="sound-item" data-sound-id="${sound.id}" data-category-id="${sound.categoryId}">
+                        <img src="${sound.coverImage}" alt="${sound.title}">
+                        <div class="info">
+                            <div class="title">${sound.title}</div>
+                            <div class="artist">${sound.artist}</div>
+                        </div>
+                        <button class="favorite-btn ${favClass}" data-sound-id="${sound.id}" data-category-id="${sound.categoryId}">
+                            <svg width="24" height="24"><use href="${heartIcon}"/></svg>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        showPage('page-sounds');
     }
+
+
+    // --- new Fonction ---
+
+// AJOUTE ces fonctions pour Shuffle et Repeat
+
+function toggleShuffle() {
+    shuffleMode = !shuffleMode;
+    shuffleBtn.classList.toggle('active', shuffleMode);
+    
+    // Si on active le shuffle, on mélange la playlist actuelle
+    if (shuffleMode && currentPlaylist.length > 0) {
+        shufflePlaylist();
+        renderPlaylist(); // Met à jour l'overlay "À suivre"
+    } else if (!shuffleMode && currentSound) {
+        // Si on désactive, on reconstruit la playlist originale
+        const originalCategory = musicData.find(c => c.id === currentSound.categoryId);
+        if (originalCategory) {
+            currentPlaylist = [...originalCategory.sounds]; // Copie pour ne pas modifier l'original
+            // On retrouve l'index actuel dans la playlist non mélangée
+            currentTrackIndex = currentPlaylist.findIndex(s => s.id === currentSound.id);
+            renderPlaylist();
+        }
+    }
+    tg.HapticFeedback.impactOccurred('light');
+}
+
+function toggleRepeat() {
+    if (repeatMode === 'none') {
+        repeatMode = 'all';
+        repeatBtn.classList.add('active');
+        repeatBtn.innerHTML = '<svg width="24" height="24"><use href="#icon-repeat"/></svg>';
+    } else if (repeatMode === 'all') {
+        repeatMode = 'one';
+        repeatBtn.classList.add('active'); // Reste actif
+        repeatBtn.innerHTML = '<svg width="24" height="24"><use href="#icon-repeat-one"/></svg>';
+    } else { // repeatMode === 'one'
+        repeatMode = 'none';
+        repeatBtn.classList.remove('active');
+        repeatBtn.innerHTML = '<svg width="24" height="24"><use href="#icon-repeat"/></svg>';
+    }
+    // Appliquer le mode repeat à l'élément audio HTML
+    audio.loop = (repeatMode === 'one');
+    tg.HapticFeedback.impactOccurred('light');
+}
+
+// Fonction pour mélanger un tableau (algorithme Fisher-Yates)
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]; // Échange les éléments
+    }
+}
+
+function shufflePlaylist() {
+    if (!currentSound) return; // Ne pas mélanger s'il n'y a rien en cours
+
+    // Garde le son actuel en première position
+    const current = currentPlaylist.splice(currentTrackIndex, 1)[0];
+    shuffleArray(currentPlaylist); // Mélange le reste
+    currentPlaylist.unshift(current); // Remet le son actuel au début
+    currentTrackIndex = 0; // L'index est maintenant 0
+}
+
 
     // --- LOGIQUE DU LECTEUR AUDIO ---
     /*   function playSound(sound, category) {
@@ -220,7 +437,7 @@ document.addEventListener('DOMContentLoaded', function () {
       } */
 
 
-    function playSound(sound, category) {
+  /*   function playSound(sound, category) {
         // ... (le code existant de la fonction reste le même) ...
         currentPlaylist = category.sounds;
         currentTrackIndex = currentPlaylist.findIndex(s => s.id === sound.id);
@@ -233,6 +450,36 @@ document.addEventListener('DOMContentLoaded', function () {
         updateAllPlayerUI(sound);
 
         // AJOUTE CETTE LIGNE pour mettre à jour l'écran de verrouillage
+        updateMediaSession(sound);
+    } */
+
+    function playSound(sound, category) {
+        // Si on ne vient pas de la page favoris, créer la playlist
+        if (category.id !== 'favorites') {
+            currentPlaylist = [...category.sounds]; // Crée une copie pour le shuffle
+            currentTrackIndex = currentPlaylist.findIndex(s => s.id === sound.id);
+            
+            // Appliquer le shuffle si activé
+            if (shuffleMode) {
+                 shufflePlaylist();
+            }
+        } else {
+            // Pour les favoris, la playlist est déjà créée par renderSounds
+             currentPlaylist = favorites.map(favId => findSoundById(favId)).filter(s => s !== null);
+             currentTrackIndex = currentPlaylist.findIndex(s => s.id === sound.id);
+             // On ne mélange pas les favoris par défaut
+        }
+    
+    
+        currentSound = sound;
+        // On ajoute categoryId au son actuel pour référence future
+        currentSound.categoryId = category.id; 
+        audio.src = sound.audioSrc;
+        // Gérer le mode 'repeat one'
+        audio.loop = (repeatMode === 'one');
+        audio.play();
+        
+        updateAllPlayerUI(sound);
         updateMediaSession(sound);
     }
 
@@ -252,7 +499,7 @@ document.addEventListener('DOMContentLoaded', function () {
         updatePlayPauseIcons();
     }
 
-    function playNext() {
+  /*   function playNext() {
         // Ligne de sécurité : ne fait rien si la playlist est vide
         if (currentPlaylist.length === 0) return;
         currentTrackIndex++;
@@ -262,9 +509,38 @@ document.addEventListener('DOMContentLoaded', function () {
         const nextSound = currentPlaylist[currentTrackIndex];
         const category = musicData.find(c => c.sounds.some(s => s.id === nextSound.id));
         playSound(nextSound, category);
+    } */
+
+    function playNext() {
+        if (currentPlaylist.length === 0) return;
+    
+        // Si on ne répète pas en boucle le son actuel
+        if (repeatMode !== 'one') {
+             currentTrackIndex++;
+            // Gérer le mode 'repeat all'
+            if (currentTrackIndex >= currentPlaylist.length) {
+                if (repeatMode === 'all') {
+                    currentTrackIndex = 0; // Recommence la playlist
+                } else {
+                    // Fin de la playlist, on arrête (ou on pourrait mettre en pause)
+                     audio.pause(); // Arrête la lecture
+                     // Optionnel: remettre l'index au début pour une prochaine lecture
+                     currentTrackIndex = currentPlaylist.length - 1; // Ou 0 si on veut que ça recommence au clic
+                     return; // Important: sortir de la fonction ici
+                }
+            }
+        }
+        // Si repeatMode === 'one', l'audio.loop s'en charge, on ne change pas d'index
+    
+        const nextSound = currentPlaylist[currentTrackIndex];
+        // On doit retrouver la catégorie originale du son suivant
+        const soundDetails = findSoundById(nextSound.id);
+        const originalCategory = musicData.find(c => c.id === soundDetails.categoryId);
+        // On passe la catégorie originale pour que playSound la connaisse
+        playSound(nextSound, originalCategory || { id: 'unknown', sounds: currentPlaylist });
     }
 
-    function playPrev() {
+   /*  function playPrev() {
         // Ligne de sécurité : ne fait rien si la playlist est vide
         if (currentPlaylist.length === 0) return;
         currentTrackIndex--;
@@ -274,7 +550,20 @@ document.addEventListener('DOMContentLoaded', function () {
         const prevSound = currentPlaylist[currentTrackIndex];
         const category = musicData.find(c => c.sounds.some(s => s.id === prevSound.id));
         playSound(prevSound, category);
+    } */
+    function playPrev() {
+        if (currentPlaylist.length === 0) return;
+        
+        currentTrackIndex--;
+        if (currentTrackIndex < 0) {
+            currentTrackIndex = currentPlaylist.length - 1; // Revient à la fin
+        }
+        const prevSound = currentPlaylist[currentTrackIndex];
+        const soundDetails = findSoundById(prevSound.id);
+        const originalCategory = musicData.find(c => c.id === soundDetails.categoryId);
+        playSound(prevSound, originalCategory || { id: 'unknown', sounds: currentPlaylist });
     }
+    
 
 
     function updatePlayPauseIcons() {
@@ -361,10 +650,197 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // AJOUTE ces fonctions pour les favoris
+
+function loadFavorites() {
+    const favs = localStorage.getItem('musicAppFavorites');
+    return favs ? JSON.parse(favs) : [];
+}
+
+function saveFavorites() {
+    localStorage.setItem('musicAppFavorites', JSON.stringify(favorites));
+}
+
+function isFavorite(soundId) {
+    return favorites.includes(soundId);
+}
+
+function toggleFavorite(soundId, categoryId, buttonElement) {
+    const soundIndex = favorites.indexOf(soundId);
+    if (soundIndex > -1) {
+        // Retirer des favoris
+        favorites.splice(soundIndex, 1);
+        buttonElement.classList.remove('active');
+        buttonElement.innerHTML = '<svg width="24" height="24"><use href="#icon-heart-empty"/></svg>';
+    } else {
+        // Ajouter aux favoris
+        favorites.push(soundId);
+        buttonElement.classList.add('active');
+        buttonElement.innerHTML = '<svg width="24" height="24"><use href="#icon-heart-filled"/></svg>';
+    }
+    saveFavorites();
+    tg.HapticFeedback.impactOccurred('light');
+
+    // Si on est sur la page des favoris, la rafraîchir
+    if (document.getElementById('page-sounds').classList.contains('active') && soundsPageTitle.innerText.includes('Favoris')) {
+        renderSounds('favorites');
+    }
+}
+
+// Trouve un son dans n'importe quelle catégorie par son ID
+function findSoundById(soundId) {
+     for (const category of musicData) {
+        const foundSound = category.sounds.find(s => s.id === soundId);
+        if (foundSound) {
+            // On ajoute l'ID de la catégorie pour pouvoir reconstruire la playlist
+            return { ...foundSound, categoryId: category.id };
+        }
+    }
+    return null;
+}
+
+
 
     // --- GESTION DES ÉVÉNEMENTS ------------------------------------------------------------------
+
+// On utilise un seul écouteur d'événements pour toute l'application
+document.body.addEventListener('click', (e) => {
+    const target = e.target;
+
+    // Clic sur une catégorie
+    const categoryCard = target.closest('.category-card');
+    if (categoryCard) {
+        categoryCard.classList.add('clicked');
+        const categoryId = categoryCard.dataset.categoryId;
+        // Ajout d'une petite sécurité au cas où l'ID serait manquant
+        if (!categoryId) {
+             console.error("Category ID missing from card:", categoryCard);
+             categoryCard.classList.remove('clicked'); // Annule l'effet si bug
+             return;
+        }
+        setTimeout(() => {
+            categoryCard.classList.remove('clicked');
+            renderSounds(categoryId); // Appel correct ici
+        }, 150);
+        return; // On arrête ici pour ne pas déclencher d'autres clics sur les éléments en dessous
+    }
+
+    // Clic sur un son (sans cliquer sur le bouton favori)
+    const soundItem = target.closest('.sound-item');
+    const favoriteBtn = target.closest('.favorite-btn'); // Vérifie si le clic était sur le bouton favori
+    if (soundItem && !favoriteBtn) { 
+        const categoryId = soundItem.dataset.categoryId;
+        const soundId = soundItem.dataset.soundId;
+        
+        let category;
+        let sound;
+
+        if (categoryId === 'favorites') {
+             sound = findSoundById(soundId);
+             if (sound) {
+                 category = { id: 'favorites', sounds: favorites.map(favId => findSoundById(favId)).filter(s => s !== null) };
+             }
+        } else {
+             category = musicData.find(c => c.id === categoryId);
+             sound = category?.sounds.find(s => s.id === soundId);
+        }
+
+        if (sound && category) playSound(sound, category);
+        return;
+    }
+    
+    // Clic sur le bouton Favori
+    if (favoriteBtn) {
+        toggleFavorite(favoriteBtn.dataset.soundId, favoriteBtn.dataset.categoryId, favoriteBtn);
+        return;
+    }
+
+    // Clic sur la barre de lecteur en bas (pour ouvrir la page pleine)
+    const playerBar = target.closest('#audio-player');
+    const playPauseButton = target.closest('#play-pause-btn');
+    if (playerBar && !playPauseButton) { // Ouvre si on clique sur la barre, mais PAS sur le bouton play/pause
+        playerPage.classList.add('visible');
+        return;
+    }
+
+    // Clic sur le bouton Play/Pause (petite barre)
+    if (playPauseButton) {
+        togglePlayPause();
+        return;
+    }
+
+    // Clic sur le bouton Play/Pause (page pleine)
+    if (target.closest('#full-play-pause-btn')) {
+        togglePlayPause();
+        return;
+    }
+
+    // Clic sur le bouton Précédent
+    if (target.closest('#prev-btn')) {
+        playPrev();
+        return;
+    }
+
+    // Clic sur le bouton Suivant
+    if (target.closest('#next-btn')) {
+        playNext();
+        return;
+    }
+    
+    // Clic sur Shuffle
+    if (target.closest('#shuffle-btn')) {
+        toggleShuffle();
+        return;
+    }
+
+    // Clic sur Repeat
+    if (target.closest('#repeat-btn')) {
+        toggleRepeat();
+        return;
+    }
+
+    // Clic sur Playlist
+    if (target.closest('#toggle-playlist-btn')) {
+        renderPlaylist();
+        playlistOverlay.classList.add('visible');
+        return;
+    }
+
+    // Clic pour fermer la playlist (en cliquant sur le fond)
+    if (target === playlistOverlay) {
+        playlistOverlay.classList.remove('visible');
+        return;
+    }
+
+    // Clic pour fermer la page pleine
+    if (target.closest('#player-close-btn')) {
+        playerPage.classList.remove('visible');
+        return;
+    }
+
+    // Clic sur le bouton Retour (page des sons)
+    if (target.closest('#back-to-categories')) {
+        showPage('page-categories');
+        return;
+    }
+});
+
+// Événements de l'objet audio qui ne sont pas des clics
+audio.addEventListener('play', updatePlayPauseIcons);
+audio.addEventListener('pause', updatePlayPauseIcons);
+audio.addEventListener('timeupdate', updateProgress);
+audio.addEventListener('ended', playNext); 
+progressContainer.addEventListener('click', setProgress);
+fullProgressContainer.addEventListener('click', setProgress);
+
+
+// --- INITIALISATION ---
+renderCategories();
+
+
+
     // On utilise un seul écouteur d'événements pour toute l'application
-    document.body.addEventListener('click', (e) => {
+    /* document.body.addEventListener('click', (e) => {
         const target = e.target;
 
         // Clic sur une catégorie
@@ -456,6 +932,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // --- INITIALISATION ---
-    renderCategories();
-});
+    renderCategories();*/
+}); 
 

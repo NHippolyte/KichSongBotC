@@ -56,7 +56,7 @@
             color: var(--text-color);
             font-size: 1.8rem;
             cursor: pointer;
-       
+
             /* display: flex
 ; */
             /* justify-content: center; */
@@ -85,7 +85,7 @@
             color: #a3270c7d;
         }
 
-        #sounds-page-title{
+        #sounds-page-title {
             margin-left: 50%;
         }
 
@@ -144,38 +144,41 @@
             aspect-ratio: 4 / 3;
         }
 
-      /*   .category-card.moyen-width {
+        /*   .category-card.moyen-width {
             grid-column: 4 / 3;
             /* Fait en sorte que l'élément s'étende sur toutes les colonnes 
         }
  */
         /* AJOUTE cette nouvelle classe pour la couleur */
         .category-card.feat-bg {
-/*             background: linear-gradient(45deg, #4a00e0, #8e2de2);
- */            /* Exemple de dégradé violet */
+            /*             background: linear-gradient(45deg, #4a00e0, #8e2de2);
+ */
+            /* Exemple de dégradé violet */
             width: 200%;
             height: 15vh;
             margin-left: 0.5vh;
         }
 
         .category-card.banger-bg {
-    background-image: url('image/BANGER.png');
-}
-.category-card.freestyle-bg {
-    background-image: url('image/FRESSTYLE.png');
-}
-.category-card.map-bg {
-    background-image: url('image/MAP.png');
-}
+            background-image: url('image/BANGER.png');
+        }
 
-/* AJOUTE cette nouvelle classe pour ta catégorie "feat" */
-.category-card.feat-bg {
-    /* Tu peux mettre une image de fond ici */
-    background-image: url('image/FEAT.png'); 
-    
-    /* Ou un dégradé, si tu préfères */
-    /* background: linear-gradient(45deg, #4a00e0, #8e2de2); */
-}
+        .category-card.freestyle-bg {
+            background-image: url('image/FRESSTYLE.png');
+        }
+
+        .category-card.map-bg {
+            background-image: url('image/MAP.png');
+        }
+
+        /* AJOUTE cette nouvelle classe pour ta catégorie "feat" */
+        .category-card.feat-bg {
+            /* Tu peux mettre une image de fond ici */
+            background-image: url('image/FEAT.png');
+
+            /* Ou un dégradé, si tu préfères */
+            /* background: linear-gradient(45deg, #4a00e0, #8e2de2); */
+        }
 
         /*  .category-card.feat {
             width: 200%;
@@ -414,6 +417,19 @@
             justify-content: center;
         }
 
+        /* AJOUTE ce style pour les boutons shuffle/repeat */
+        #shuffle-btn,
+        #repeat-btn {
+            color: var(--hint-color);
+            /* Couleur par défaut */
+        }
+
+        #shuffle-btn.active,
+        #repeat-btn.active {
+            color: #902611;
+            /* Couleur quand actif */
+        }
+
         .player-footer {
             padding: 20px;
             display: flex;
@@ -463,6 +479,52 @@
         .playlist-content .sound-item {
             background: none;
         }
+
+        /* AJOUTE ce style pour le bouton favori */
+        .favorite-btn {
+            background: none;
+            border: none;
+            color: var(--hint-color);
+            cursor: pointer;
+            padding: 5px;
+            /* Zone de clic plus grande */
+            margin-left: auto;
+            /* Pousse le bouton vers la droite */
+        }
+
+        .favorite-btn.active {
+            color: #902611;
+            /* Couleur quand actif */
+        }
+
+        .favorites-card {
+            /* Style spécifique pour la carte favoris */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-size: cover;
+            /* S'assure que le dégradé remplit */
+            aspect-ratio: 4 / 2;
+            /* La rend carrée par défaut */
+            background-size: cover;
+    background-position: center;
+        }
+
+        /* S'assure que les petites cartes fav gardent le bon ratio */
+        .favorites-card:not(.full-width) {
+            aspect-ratio: 4 / 3;
+        }
+
+        /* AJOUTE cette nouvelle classe pour le message favoris vides */
+.empty-favorites-message {
+    color: var(--hint-color);
+    text-align: center;
+    padding: 40px 20px;
+    font-style: italic;
+}
+
     </style>
 </head>
 
@@ -497,6 +559,42 @@
                 stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
             </symbol>
+            <symbol id="icon-heart-empty" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path
+                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                </path>
+            </symbol>
+            <symbol id="icon-heart-filled" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path
+                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                </path>
+            </symbol>
+            <symbol id="icon-shuffle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="16 3 21 3 21 8"></polyline>
+                <line x1="4" y1="20" x2="21" y2="3"></line>
+                <polyline points="16 21 21 21 21 16"></polyline>
+                <line x1="15" y1="15" x2="21" y2="21"></line>
+                <line x1="4" y1="4" x2="9" y2="9"></line>
+            </symbol>
+            <symbol id="icon-repeat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="17 1 21 5 17 9"></polyline>
+                <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                <polyline points="7 23 3 19 7 15"></polyline>
+                <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+            </symbol>
+            <symbol id="icon-repeat-one" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 1l4 4-4 4" />
+                <path d="M3 11V9a4 4 0 0 1 4-4h14" />
+                <path d="M7 23l-4-4 4-4" />
+                <path d="M21 13v2a4 4 0 0 1-4 4H3" />
+                <path d="M11 10h1v4" />
+            </symbol>
+
 
         </defs>
     </svg>
@@ -565,6 +663,9 @@
                 </div>
             </div>
             <div class="full-player-controls">
+                <button id="shuffle-btn"><svg width="24" height="24">
+                        <use href="#icon-shuffle" />
+                    </svg></button>
                 <button id="prev-btn"><svg width="32" height="32">
                         <use href="#icon-previous" />
                     </svg></button>
@@ -573,6 +674,9 @@
                     </svg></button>
                 <button id="next-btn"><svg width="32" height="32">
                         <use href="#icon-next" />
+                    </svg></button>
+                <button id="repeat-btn"><svg width="24" height="24">
+                        <use href="#icon-repeat" />
                     </svg></button>
             </div>
         </div>
