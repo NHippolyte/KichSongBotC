@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
             className: 'freestyle-bg',
             categoryImage: 'image/FRESSTYLE.png',
             sounds: [
-                { id: 'Stras et Paillette', title: 'Stras et Paillette', artist: 'Kich', coverImage: 'image/strasetpaillette.png', audioSrc: 'freestyle/StrasetPaillette.mp3' },
+                { id: 'Stras et Paillette', title: 'Stras et Paillette', artist: 'Kich', coverImage: 'image/strasetpaillette.png', audioSrc: 'freestyle/Strasetpaillette.mp3' },
                 { id: 'MaxiCanal', title: 'MaxiCanal', artist: 'Kich', coverImage: 'image/MaxiCanal.png', audioSrc: 'freestyle/MaxiCanal.mp3' },
                 { id: '20%', title: '20%', artist: 'Kich', coverImage: 'image/20.png', audioSrc: 'freestyle/20.mp3' },
                 { id: 'pause', title: 'Pause', artist: 'Kich', coverImage: 'image/pause.png', audioSrc: 'freestyle/Pause.mp3' },
