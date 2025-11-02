@@ -30,6 +30,8 @@ document.addEventListener('DOMContentLoaded', function () {
             categoryImage: 'image/BANGER.png',
             sounds: [
                 { id: 'CONIO', title: 'CONIO', artist: 'Kich', coverImage: 'image/CONIO.png', audioSrc: 'banger/CONIO.mp3' },
+                { id: 'NOCTA', title: 'NOCTA', artist: 'Kich', coverImage: 'image/NOCTA.png', audioSrc: 'banger/NOCTA.mp3' },
+                { id: 'POCKET', title: 'POCKET', artist: 'Kich', coverImage: 'image/Pocket.png', audioSrc: 'banger/POCKET.mp3' },
                 { id: 'PourMonBien', title: 'Pour Mon Bien', artist: 'Kich', coverImage: 'image/MonBien.JPG', audioSrc: 'banger/MonBien.mp3' },
                 { id: 'PLUS', title: 'PLUS', artist: 'Kich', coverImage: 'image/PLUS.png', audioSrc: 'banger/PLUS.mp3' },
                 { id: 'TicEtTac', title: 'Tic et Tac', artist: 'Kich', coverImage: 'image/TicEtTac.png', audioSrc: 'banger/Tic et Tac.mp3' },
@@ -52,8 +54,12 @@ document.addEventListener('DOMContentLoaded', function () {
             className: 'freestyle-bg',
             categoryImage: 'image/FRESSTYLE.png',
             sounds: [
+                { id: 'Stras et Paillette', title: 'Stras et Paillette', artist: 'Kich', coverImage: 'image/strasetpaillette.png', audioSrc: 'freestyle/StrasetPaillette.mp3' },
+                { id: 'MaxiCanal', title: 'MaxiCanal', artist: 'Kich', coverImage: 'image/MaxiCanal.png', audioSrc: 'freestyle/MaxiCanal.mp3' },
+                { id: '20%', title: '20%', artist: 'Kich', coverImage: 'image/20.png', audioSrc: 'freestyle/20.mp3' },
                 { id: 'pause', title: 'Pause', artist: 'Kich', coverImage: 'image/pause.png', audioSrc: 'freestyle/Pause.mp3' },
                 { id: 'honnetement', title: 'Honnetement', artist: 'Kich', coverImage: 'image/honnetement.png', audioSrc: 'freestyle/honnetement.mp3' },
+                { id: 'Zero6m', title: 'Zero 6m', artist: 'Kich', coverImage: 'image/Zero6m.png', audioSrc: 'freestyle/Zero 6m.mp3' },
                 { id: 'Jrempli', title: 'J\'rempli J\'vide', artist: 'Kich', coverImage: 'image/Jrempli.png', audioSrc: 'freestyle/Jrempli.mp3' },
                 { id: '3Pshit', title: '3 Pshit', artist: 'Kich', coverImage: 'image/3pshit.JPG', audioSrc: 'freestyle/3pshit.mp3' },
                 { id: 'AuDeMar', title: 'AuDeMar', artist: 'Kich', coverImage: 'image/AUdemar.JPG', audioSrc: 'freestyle/AuDeMaar.mp3' },
@@ -72,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 { id: 'A toute a l\'heure', title: ' A toute a l\'heure', artist: 'Kich', coverImage: 'image/alheure.png', audioSrc: 'freestyle/Maman a toute a l\'heure.mp3' },
                 { id: 'Entouredbatiment', title: 'Entoure D\'batiment', artist: 'Kich', coverImage: 'image/Entoure.png', audioSrc: 'freestyle/Entoure dbatiment.mp3' },
                 { id: 'UnCalumetUnFeu', title: 'Un Calumet Un Feu', artist: 'Kich', coverImage: 'image/UnCalumetUnFeu.png', audioSrc: 'freestyle/Un Calumet Un Feu.mp3' },
-                { id: 'Zero6m', title: 'Zero 6m', artist: 'Kich', coverImage: 'image/Zero6m.png', audioSrc: 'freestyle/Zero 6m.mp3' },
 
             ]
         },
@@ -82,6 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
             className: 'map-bg', 
             categoryImage: 'image/MAP.png',
             sounds: [
+                { id: 'Emelyne', title: 'Emelyne', artist: 'Kich', coverImage: 'image/Emelyne.png', audioSrc: 'map/Emelyne.mp3' },
                 { id: 'Mercedes', title: 'Mercedes', artist: 'Kich', coverImage: 'image/Mercedes.png', audioSrc: 'map/Mercedes.mp3' },
                 { id: 'Abandoonner', title: 'Abandonner', artist: 'Kich', coverImage: 'image/Abandonner.png', audioSrc: 'map/Abandoonner.mp3' },
                 { id: 'DeCocaDolive', title: 'De Coca, D\'olives', artist: 'Kich', coverImage: 'image/DeCocaDolive.png', audioSrc: 'map/DeCocaDolive.mp3' },
@@ -307,8 +313,7 @@ let repeatMode = 'none'; // 'none', 'all', 'one'
             `;
         }).join('');
         showPage('page-sounds');
-    } */
-
+    } */ 
     function renderSounds(categoryId) {
         let categoryName = '';
         let soundsToShow = [];
