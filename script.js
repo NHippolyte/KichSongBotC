@@ -109,6 +109,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 { id: 'Surripa', title: 'Sur Ripa', artist: 'PAKI X TITO x Kich', coverImage: 'image/SurRipa.png', audioSrc: 'feat/SURRIPA.mp3' },
                 { id: 'Push', title: 'Push', artist: 'PAKI X TITO X MILO X Kich', coverImage: 'image/Push.png', audioSrc: 'feat/push_1.mp3' },
             ]
+        },
+        {
+            id: 'MaChica',
+            name: '💃 CHICA 💃 ',
+            className: 'chica-bg',
+            categoryImage: 'image/Chica.png',
+            sounds: [
+                { id: 'Innocent', title: 'Innocent', artist: 'Kich', coverImage: 'image/Innocent.png', audioSrc: 'chica/Innocent.mp3' },
+                { id: 'Comete', title: 'Sur La Comete', artist: 'Kich', coverImage: 'image/Comete.png', audioSrc: 'chica/Comete.mp3' },
+                { id: 'Buvant', title: 'Banvant Un Peu', artist: 'Kich', coverImage: 'image/Buvant.png', audioSrc: 'chica/Buvant.mp3' },
+
+
+            ]
         }
     ];
 
